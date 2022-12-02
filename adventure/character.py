@@ -1,6 +1,6 @@
 import pygame
 from pygame.sprite import Sprite
-
+from items import Items
 # from settings import Settings
 
 
@@ -17,10 +17,10 @@ class Guy(Sprite):
         self.original_image = pygame.image.load('photos/guy.bmp')
         self.image = self.original_image
         self.rect = self.image.get_rect()
-        # self.bgcolor = ai_game.bgcolor
 
         self.screen_w, self.screen_h = self.screen_rect.size
 
+        self.crowned = False
         # res_image = pygame.transform.scale(self.image, (60, 48))
         # res_rect = res_image.get_rect(center=self.rect.center)
         # self.image = res_image
@@ -40,6 +40,8 @@ class Guy(Sprite):
         self.moving_up = False
         self.moving_down = False
 
+
+
     def update(self):
 
         if self.moving_right:
@@ -47,7 +49,7 @@ class Guy(Sprite):
                     and self.rect.y <= (self.screen_h/2 - 130):
                 self.moving_right = False
             elif (self.rect.width + self.x) >= self.screen_rect.right \
-                    and (self.rect.y) >= (self.screen_h/2):
+                    and (self.rect.y) >= (self.screen_h/2 + 20):
                 self.moving_right = False
             else:
                 self.moving_right = True
@@ -56,7 +58,7 @@ class Guy(Sprite):
         if self.moving_left:
             if self.x <= self.screen_rect.left and self.rect.y <= (self.screen_h/2 - 130):
                 self.moving_left = False
-            elif self.x <= self.screen_rect.left and self.rect.y >= (self.screen_h/2):
+            elif self.x <= self.screen_rect.left and self.rect.y >= (self.screen_h/2 + 20):
                 self.moving_left = False
             else:
                 self.moving_left = True
@@ -95,7 +97,12 @@ class Guy(Sprite):
         self.rect.y = self.y
 
     def blitme(self):
-        self.screen.blit(self.image, self.rect)
+        if self.crowned:
+            self.original_image = pygame.image.load('photos/guy_crowned.bmp')
+            self.screen.blit(self.image, self.rect)
+        else:
+            self.original_image = pygame.image.load('photos/guy.bmp')
+            self.screen.blit(self.image, self.rect)
 
 
 

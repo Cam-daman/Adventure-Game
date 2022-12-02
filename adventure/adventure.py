@@ -8,8 +8,9 @@ from doors import Doors
 from items import Items
 gray = (150, 150, 150)
 black = (0, 0, 0)
+cyan = (0, 255, 255)
 white = (255, 255, 255)
-red = (237, 0, 0)
+red = (255, 0, 0)
 orange = (255, 150, 0)
 yellow = (255, 255, 0)
 green = (0, 255, 0)
@@ -40,12 +41,13 @@ class Adventure:
         # self.stats = GameStadts(self)
         # self.sb = Scoreboard(self)
         self.guy = Guy(self)
-        self._guy = pygame.sprite.Group()
+        self.guys = pygame.sprite.GroupSingle()
         self.bg_color = gray
         self.doors = Doors(self)
         # self.map = Map(self)
         self.bullets = pygame.sprite.Group()
         self.items = Items(self)
+
 
         # self.bgcolor = self.map.bgcolor
         # self.aliens = pygame.sprite.Group()
@@ -54,17 +56,17 @@ class Adventure:
 
     def run_game(self):
         while True:
+
             self._update_screen()
             self.guy.update()
             self._check_events()
-
             # if self.stats.game_active:
             self.rotate_guy()
             self._update_bullets()
+
             # self._update_aliens()
 
     def _update_screen(self):
-
         if self.guy.rect.x == self.w:
             self.update_bgcolor_right()
         if self.guy.rect.x + self.guy.rect.width == 0:
@@ -78,16 +80,16 @@ class Adventure:
 
         if self.bg_color == gray:
             self.doors.make_door_gray()
-        if self.bg_color == black:
-            self.doors.make_door_black()
-            self.items.load_sad_king()
+            if not self.items.king_crowned:
+                self.items.load_sad_king()
+            self._check_collision_gray()
+        if self.bg_color == cyan:
+            self.doors.make_door_cyan()
         if self.bg_color == white:
             self.doors.make_door_white()
-            self.items.load_crown()
         if self.bg_color == red:
             self.doors.make_door_red()
-        if self.bg_color == black:
-            self.doors.make_door_black()
+            self.items.load_skeleton()
         if self.bg_color == orange:
             self.doors.make_door_orange()
         if self.bg_color == yellow:
@@ -100,6 +102,13 @@ class Adventure:
             self.doors.make_door_purple()
         if self.bg_color == pink:
             self.doors.make_door_pink()
+        if self.bg_color == black:
+            self.doors.make_door_black()
+            self.items.load_crown()
+            self._check_collision_black()
+            if self.items.happy:
+                self.items.load_happy_king()
+
         self.guy.blitme()
 
         for bullet in self.bullets.sprites():
@@ -128,12 +137,12 @@ class Adventure:
     def update_bgcolor_right(self):
         if self.bg_color == gray:
             self.bg_color = red
-        elif self.bg_color == black:
+        elif self.bg_color == cyan:
             self.bg_color = black
         elif self.bg_color == red:
             self.bg_color = blue
         elif self.bg_color == blue:
-            self.bg_color = black
+            self.bg_color = cyan
         elif self.bg_color == green:
             self.bg_color = orange
         elif self.bg_color == orange:
@@ -143,7 +152,7 @@ class Adventure:
         elif self.bg_color == white:
             self.bg_color = pink
         elif self.bg_color == black:
-            self.bg_color = black
+            self.bg_color = gray
 
     def update_bgcolor_left(self):
         if self.bg_color == red:
@@ -158,7 +167,7 @@ class Adventure:
             self.bg_color = pink
         elif self.bg_color == pink:
             self.bg_color = white
-        elif self.bg_color == black:
+        elif self.bg_color == cyan:
             self.bg_color = blue
 
     def _check_events(self):
@@ -221,11 +230,10 @@ class Adventure:
                 self.bullets.remove(bullet)
             if bullet.rect.centery >= self.settings.screen_height or bullet.rect.centerx < 0:
                 self.bullets.remove(bullet)
-            if self.guy.rect.x >= self.settings.screen_width or self.guy.rect.right <=0:
+            if self.guy.rect.x >= self.settings.screen_width or self.guy.rect.right <= 0:
                 self.bullets.remove(bullet)
             if self.guy.rect.y >= self.settings.screen_height or self.guy.rect.bottom <= 0:
                 self.bullets.remove(bullet)
-
 
     # def _create_fleet(self):
     #     alien = Alien(self)
@@ -295,14 +303,20 @@ class Adventure:
     #
 
         # self._check_bullet_alien_collision()
-    def _check_guy_items_collision(self):
-        collisions = pygame.sprite.groupcollide(
-            self.guy, self.crown, True, True)
-    #     if collisions:
-    #         for aliens in collisions.values():
-    #             self.stats.score += self.settings.alien_points * len(aliens)
-    #         self.sb.prep_score()
-    #         self.sb.check_high_score()
+    def _check_collision_black(self):
+        collision_crown = pygame.Rect.colliderect(self.guy.rect, self.items.crown_rect)
+        if collision_crown:
+            self.guy.crowned = True
+
+    def _check_collision_gray(self):
+        collision_king = pygame.Rect.colliderect(self.guy.rect, self.items.king_sad_rect)
+        if collision_king:
+            if self.guy.crowned:
+                self.items.king_crowned = True
+                self.guy.crowned = False
+                self.settings.win = True
+
+
     #     if not self.aliens:
     #         self.bullets.empty()
     #         self._create_fleet()

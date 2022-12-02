@@ -3,6 +3,7 @@ from pygame.sprite import Sprite
 
 
 gray = (150, 150, 150)
+cyan = (0, 255, 255)
 black = (0, 0, 0)
 white = (255, 255, 255)
 red = (237, 0, 0)
@@ -12,6 +13,7 @@ green = (0, 255, 0)
 blue = (0, 0, 255)
 purple = (200, 0, 255)
 pink = (255, 0, 200)
+gold = (255, 200, 20)
 
 class Doors(Sprite):
     def __init__(self, ai_game):
@@ -45,7 +47,7 @@ class Doors(Sprite):
     def make_door_blue(self):
         pygame.draw.rect(self.screen, purple, pygame.Rect(self.w / 2 - 89, 0, 178, 20))
         pygame.draw.rect(self.screen, red, pygame.Rect(0, self.h / 2 - 75, 20, 178))
-        pygame.draw.rect(self.screen, black, pygame.Rect(self.w-20, self.h/2-75, 20, 178))
+        pygame.draw.rect(self.screen, cyan, pygame.Rect(self.w-20, self.h/2-75, 20, 178))
 
     def make_door_purple(self):
         pygame.draw.rect(self.screen, blue, pygame.Rect(self.w/2-89, self.h-20, 178, 20))
@@ -55,8 +57,14 @@ class Doors(Sprite):
         pygame.draw.rect(self.screen, purple, pygame.Rect(self.w-20, self.h/2-75, 20, 178))
         pygame.draw.rect(self.screen, white, pygame.Rect(0, self.h / 2 - 75, 20, 178))
 
-    def make_door_black(self):
+    def make_door_cyan(self):
         pygame.draw.rect(self.screen, blue, pygame.Rect(0, self.h / 2 - 75, 20, 178))
+        pygame.draw.rect(self.screen, black, pygame.Rect(self.w-20, self.h / 2 - 75, 20, 178))
 
     def make_door_white(self):
         pygame.draw.rect(self.screen, pink, pygame.Rect(self.w-20, self.h/2-75, 20, 178))
+
+    def make_door_black(self):
+        pygame.draw.rect(self.screen, gold, pygame.Rect(self.w-20, 0, 20, self.h))
+
+
