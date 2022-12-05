@@ -41,8 +41,9 @@ class Adventure:
         # self.stats = GameStadts(self)
         # self.sb = Scoreboard(self)
         self.guy = Guy(self)
-        self.guys = pygame.sprite.GroupSingle()
-        self.bg_color = gray
+            #Starting Screen Color
+        self.bg_color = red
+
         self.doors = Doors(self)
         # self.map = Map(self)
         self.bullets = pygame.sprite.Group()
@@ -80,34 +81,33 @@ class Adventure:
 
         if self.bg_color == gray:
             self.doors.make_door_gray()
-            if not self.items.king_crowned:
-                self.items.load_sad_king()
+            self.items.load_king()
             self._check_collision_gray()
-        if self.bg_color == cyan:
+        elif self.bg_color == cyan:
             self.doors.make_door_cyan()
-        if self.bg_color == white:
+        elif self.bg_color == white:
             self.doors.make_door_white()
-        if self.bg_color == red:
+        elif self.bg_color == red:
             self.doors.make_door_red()
-            self.items.load_skeleton()
-        if self.bg_color == orange:
+            self.items.load_skeleton_orange()
+            self._check_collision_red()
+        elif self.bg_color == orange:
             self.doors.make_door_orange()
-        if self.bg_color == yellow:
+            self.guy.orange_key = False
+        elif self.bg_color == yellow:
             self.doors.make_door_yellow()
-        if self.bg_color == green:
+        elif self.bg_color == green:
             self.doors.make_door_green()
-        if self.bg_color == blue:
+        elif self.bg_color == blue:
             self.doors.make_door_blue()
-        if self.bg_color == purple:
+        elif self.bg_color == purple:
             self.doors.make_door_purple()
-        if self.bg_color == pink:
+        elif self.bg_color == pink:
             self.doors.make_door_pink()
-        if self.bg_color == black:
+        elif self.bg_color == black:
             self.doors.make_door_black()
             self.items.load_crown()
             self._check_collision_black()
-            if self.items.happy:
-                self.items.load_happy_king()
 
         self.guy.blitme()
 
@@ -130,19 +130,20 @@ class Adventure:
 
     def update_bgcolor_down(self):
         if self.bg_color == red:
-            self.bg_color = orange
+            if self.guy.orange_key:
+                self.bg_color = orange
         elif self.bg_color == purple:
             self.bg_color = blue
 
     def update_bgcolor_right(self):
         if self.bg_color == gray:
             self.bg_color = red
-        elif self.bg_color == cyan:
-            self.bg_color = black
         elif self.bg_color == red:
             self.bg_color = blue
         elif self.bg_color == blue:
             self.bg_color = cyan
+        elif self.bg_color == cyan:
+            self.bg_color = black
         elif self.bg_color == green:
             self.bg_color = orange
         elif self.bg_color == orange:
@@ -235,6 +236,31 @@ class Adventure:
             if self.guy.rect.y >= self.settings.screen_height or self.guy.rect.bottom <= 0:
                 self.bullets.remove(bullet)
 
+    def _check_collision_black(self):
+        collision_crown = pygame.Rect.colliderect(self.guy.rect, self.items.crown_rect)
+        if collision_crown:
+            self.items.crowned = True
+            self.guy.crowned = True
+
+    def _check_collision_gray(self):
+        collision_king = pygame.Rect.colliderect(self.guy.rect, self.items.king_sad_rect)
+        if collision_king:
+            if self.guy.crowned:
+                self.items.king_crowned = True
+                self.guy.crowned = False
+
+    def _check_collision_red(self):
+        collision_skeleton_bullet = pygame.sprite.spritecollideany(self.items.orange_skeleton, self.bullets)
+        collision_orange_key = pygame.Rect.colliderect(self.guy.rect, self.items.orange_key_rect)
+        if collision_skeleton_bullet:
+            self.items.skeleton_orange = False
+        if not self.items.skeleton_orange:
+            if collision_orange_key:
+                self.guy.orange_key = True
+                self.items.have_orange = True
+
+
+
     # def _create_fleet(self):
     #     alien = Alien(self)
     #     alien_width, alien_height = alien.rect.size
@@ -303,19 +329,6 @@ class Adventure:
     #
 
         # self._check_bullet_alien_collision()
-    def _check_collision_black(self):
-        collision_crown = pygame.Rect.colliderect(self.guy.rect, self.items.crown_rect)
-        if collision_crown:
-            self.guy.crowned = True
-
-    def _check_collision_gray(self):
-        collision_king = pygame.Rect.colliderect(self.guy.rect, self.items.king_sad_rect)
-        if collision_king:
-            if self.guy.crowned:
-                self.items.king_crowned = True
-                self.guy.crowned = False
-                self.settings.win = True
-
 
     #     if not self.aliens:
     #         self.bullets.empty()
@@ -330,7 +343,6 @@ class Adventure:
     #         if alien.rect.bottom >= screen_rect.bottom:
     #             self._guy_hit()
     #             break
-
 
 if __name__ == '__main__':
     ai = Adventure()

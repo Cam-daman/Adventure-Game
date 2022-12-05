@@ -21,6 +21,7 @@ class Guy(Sprite):
         self.screen_w, self.screen_h = self.screen_rect.size
 
         self.crowned = False
+        self.orange_key = False
         # res_image = pygame.transform.scale(self.image, (60, 48))
         # res_rect = res_image.get_rect(center=self.rect.center)
         # self.image = res_image
@@ -49,7 +50,7 @@ class Guy(Sprite):
                     and self.rect.y <= (self.screen_h/2 - 130):
                 self.moving_right = False
             elif (self.rect.width + self.x) >= self.screen_rect.right \
-                    and (self.rect.y) >= (self.screen_h/2 + 20):
+                    and self.rect.y >= (self.screen_h/2 + 20):
                 self.moving_right = False
             else:
                 self.moving_right = True
@@ -99,6 +100,10 @@ class Guy(Sprite):
     def blitme(self):
         if self.crowned:
             self.original_image = pygame.image.load('photos/guy_crowned.bmp')
+            # self.rect = self.image.get_rect()
+            self.screen.blit(self.image, self.rect)
+        elif self.orange_key:
+            self.original_image = pygame.image.load('photos/guy_orange.bmp')
             self.screen.blit(self.image, self.rect)
         else:
             self.original_image = pygame.image.load('photos/guy.bmp')
