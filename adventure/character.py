@@ -22,6 +22,7 @@ class Guy(Sprite):
 
         self.crowned = False
         self.orange_key = False
+        self.red_key = False
         # res_image = pygame.transform.scale(self.image, (60, 48))
         # res_rect = res_image.get_rect(center=self.rect.center)
         # self.image = res_image
@@ -103,7 +104,10 @@ class Guy(Sprite):
             # self.rect = self.image.get_rect()
             self.screen.blit(self.image, self.rect)
         elif self.orange_key:
-            self.original_image = pygame.image.load('photos/guy_orange.bmp')
+            self.original_image = pygame.image.load('photos/guy_orange.png')
+            self.screen.blit(self.image, self.rect)
+        elif self.red_key:
+            self.original_image = pygame.image.load('photos/guy_red.png')
             self.screen.blit(self.image, self.rect)
         else:
             self.original_image = pygame.image.load('photos/guy.bmp')

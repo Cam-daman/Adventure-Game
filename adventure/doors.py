@@ -24,14 +24,21 @@ class Doors(Sprite):
         self.angle = ai_game.angle
         self.screen_rect = ai_game.screen.get_rect()
         self.w, self.h = pygame.display.get_surface().get_size()
+        self.orange = False
+        self.red = False
 
     def make_door_gray(self):
+        if not self.red:
+            pygame.draw.rect(self.screen, black, pygame.Rect(self.w - 30, self.h / 2 - 99, 30, 198))
         pygame.draw.rect(self.screen, red, pygame.Rect(self.w-20, self.h/2-89, 20, 178))
 
     def make_door_red(self):
         pygame.draw.rect(self.screen, blue, pygame.Rect(self.w-20, self.h/2-89, 20, 178))
         pygame.draw.rect(self.screen, gray, pygame.Rect(0, self.h/2-75, 20, 178))
+        if not self.orange:
+            pygame.draw.rect(self.screen, black, pygame.Rect(self.w / 2 - 109, self.h-30, 218, 40))
         pygame.draw.rect(self.screen, orange, pygame.Rect(self.w/2-89, self.h-20, 178, 20))
+
 
     def make_door_orange(self):
         pygame.draw.rect(self.screen, yellow, pygame.Rect(self.w-20, self.h/2-75, 20, 178))

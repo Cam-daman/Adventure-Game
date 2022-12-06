@@ -48,6 +48,7 @@ class Adventure:
         # self.map = Map(self)
         self.bullets = pygame.sprite.Group()
         self.items = Items(self)
+        self.skeletons = pygame.sprite.Group()
 
 
         # self.bgcolor = self.map.bgcolor
@@ -82,12 +83,16 @@ class Adventure:
         if self.bg_color == gray:
             self.doors.make_door_gray()
             self.items.load_king()
+            self.items.load_key_red()
             self._check_collision_gray()
         elif self.bg_color == cyan:
             self.doors.make_door_cyan()
         elif self.bg_color == white:
             self.doors.make_door_white()
         elif self.bg_color == red:
+            self.items.have_red = False
+            self.guy.red_key = False
+            self.doors.red = False
             self.doors.make_door_red()
             self.items.load_skeleton_orange()
             self._check_collision_red()
@@ -137,7 +142,8 @@ class Adventure:
 
     def update_bgcolor_right(self):
         if self.bg_color == gray:
-            self.bg_color = red
+            if self.guy.red_key:
+                self.bg_color = red
         elif self.bg_color == red:
             self.bg_color = blue
         elif self.bg_color == blue:
@@ -244,13 +250,21 @@ class Adventure:
 
     def _check_collision_gray(self):
         collision_king = pygame.Rect.colliderect(self.guy.rect, self.items.king_sad_rect)
+        collision_red_key = pygame.Rect.colliderect(self.guy.rect, self.items.red_key_rect)
+
         if collision_king:
             if self.guy.crowned:
                 self.items.king_crowned = True
                 self.guy.crowned = False
+        if collision_red_key:
+            self.guy.red_key = True
+            self.items.have_red = True
+            self.doors.red = True
+
 
     def _check_collision_red(self):
-        collision_skeleton_bullet = pygame.sprite.spritecollideany(self.items.orange_skeleton, self.bullets)
+        self.skeletons.add(self.items.skeleton_orange_rect)
+        collision_skeleton_bullet = pygame.sprite.groupcollide(self.bullets, self.skeletons, True, True)
         collision_orange_key = pygame.Rect.colliderect(self.guy.rect, self.items.orange_key_rect)
         if collision_skeleton_bullet:
             self.items.skeleton_orange = False
@@ -258,6 +272,7 @@ class Adventure:
             if collision_orange_key:
                 self.guy.orange_key = True
                 self.items.have_orange = True
+                self.doors.orange = True
 
 
 

@@ -19,12 +19,14 @@ class Items(Sprite):
         self.orange_skeleton = pygame.image.load('photos/skeleton_orange.png')
         self.orange_skeleton_dead = pygame.image.load('photos/skeleton_orange_dead.png')
         self.orange_key = pygame.image.load('photos/orange_key.png')
+        self.red_key = pygame.image.load('photos/red_key.png')
 
         self.king_sad_rect = self.king_sad.get_rect()
         self.king_happy_rect = self.king_happy.get_rect()
         self.crown_rect = self.crown.get_rect()
         self.orange_skeleton_dead_rect = self.orange_skeleton_dead.get_rect()
         self.orange_key_rect = self.orange_key.get_rect()
+        self.red_key_rect = self.red_key.get_rect()
         self.skeleton_orange_rect = self.orange_skeleton.get_rect()
 
         self.skeleton_orange_rect.center = (self.w/2, self.h/2)
@@ -32,10 +34,12 @@ class Items(Sprite):
         self.king_sad_rect.center = (self.w/2, self.h/2)
         self.skeleton_orange_rect.center = (500, 500)
         self.orange_key_rect.center = (500, 700)
+        self.red_key_rect.center = (500,500)
 
         self.crowned = False
         self.king_crowned = False
         self.have_orange = False
+        self.have_red = False
 
         self.skeleton_orange = True
         self.key_red = False
@@ -58,8 +62,12 @@ class Items(Sprite):
             self.screen.blit(self.orange_skeleton, self.screen_rect.center)
         else:
             self.screen.blit(self.orange_skeleton_dead, self.screen_rect.center)
-            self.key_orange = True
+            if not self.have_orange:
+                self.screen.blit(self.orange_key, (500, 500))
 
-    def load_key_orange(self):
-        if not self.have_orange:
-            self.screen.blit(self.orange_key, (500, 500))
+    def load_key_red(self):
+        if not self.have_red:
+            self.screen.blit(self.red_key, (500, 500))
+
+
+
