@@ -1,7 +1,6 @@
 import pygame
 from pygame.sprite import Sprite
 from items import Items
-# from settings import Settings
 
 
 class Guy(Sprite):
@@ -23,16 +22,12 @@ class Guy(Sprite):
         self.crowned = False
         self.orange_key = False
         self.red_key = False
-        # res_image = pygame.transform.scale(self.image, (60, 48))
-        # res_rect = res_image.get_rect(center=self.rect.center)
-        # self.image = res_image
-        # self.rect = res_rect
-        self.rect.midleft = self.screen.get_rect().midleft
+        self.blue_key = False
+        self.white_key = False
+        self.black_key = False
+        self.yellow_key = False
 
-        # rot_image = pygame.transform.rotate(self.image, self.angle)
-        # rot_rect = rot_image.get_rect(center=self.rect.center)
-        # self.image = rot_image
-        # self.rect = rot_rect
+        self.rect.midleft = self.screen.get_rect().midleft
 
         self.x = float(self.rect.x)
         self.y = float(self.rect.y)
@@ -41,11 +36,7 @@ class Guy(Sprite):
         self.moving_left = False
         self.moving_up = False
         self.moving_down = False
-
-
-
     def update(self):
-
         if self.moving_right:
             if (self.rect.width + self.x) >= self.screen_rect.right \
                     and self.rect.y <= (self.screen_h/2 - 130):
@@ -101,13 +92,24 @@ class Guy(Sprite):
     def blitme(self):
         if self.crowned:
             self.original_image = pygame.image.load('photos/guy_crowned.bmp')
-            # self.rect = self.image.get_rect()
             self.screen.blit(self.image, self.rect)
         elif self.orange_key:
             self.original_image = pygame.image.load('photos/guy_orange.png')
             self.screen.blit(self.image, self.rect)
         elif self.red_key:
             self.original_image = pygame.image.load('photos/guy_red.png')
+            self.screen.blit(self.image, self.rect)
+        elif self.blue_key:
+            self.original_image = pygame.image.load('photos/guy_blue.png')
+            self.screen.blit(self.image, self.rect)
+        elif self.white_key:
+            self.original_image = pygame.image.load('photos/guy_white.png')
+            self.screen.blit(self.image, self.rect)
+        elif self.black_key:
+            self.original_image = pygame.image.load('photos/guy_black.png')
+            self.screen.blit(self.image, self.rect)
+        elif self.yellow_key:
+            self.original_image = pygame.image.load('photos/guy_yellow.png')
             self.screen.blit(self.image, self.rect)
         else:
             self.original_image = pygame.image.load('photos/guy.bmp')

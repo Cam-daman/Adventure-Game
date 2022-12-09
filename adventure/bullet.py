@@ -17,17 +17,6 @@ class Bullet(Sprite):
         self.rect.centerx = ai_game.guy.rect.centerx
         self.rect.centery = ai_game.guy.rect.centery
 
-        # if self.angle == 0:
-        #     self.rect.midtop = ai_game.guy.rect.midtop
-        # elif self.angle == 180:
-        #     self.rect.midtop = ai_game.guy.rect.midbottom
-        # elif self.angle == -90:
-        #     self.rect = pygame.Rect(0, 0, self.settings.bullet_height, self.settings.bullet_width)
-        #     self.rect.midtop = ai_game.guy.rect.midright
-        # elif self.angle == 90:
-        #     self.rect = pygame.Rect(0, 0, self.settings.bullet_height, self.settings.bullet_width)
-        #     self.rect.midtop = ai_game.guy.rect.midleft
-
         self.y = float(self.rect.y)
         self.x = float(self.rect.x)
 
@@ -40,32 +29,12 @@ class Bullet(Sprite):
 
         self.angle = math.atan2(self.distance_y, self.distance_x)
 
-        # self.bullet_speed_x = self.settings.bullet_speed * math.cos(self.angle)
-        # self.bullet_speed_y = self.settings.bullet_speed * math.sin(self.angle)
         self.x += self.settings.bullet_speed * (math.cos(self.angle))
         self.y += self.settings.bullet_speed * (math.sin(self.angle))
 
         self.rect.x = self.x
         self.rect.y = self.y
-        # if self.angle == 0:
-        #     self.y -= self.settings.bullet_speed
-        #     # Update the rect position.
-        #     self.rect.y = self.y
-        #
-        # if self.angle == 180:
-        #     self.y += self.settings.bullet_speed
-        #     # Update the rect position.
-        #     self.rect.y = self.y
-        #
-        # if self.angle == -90:
-        #     self.x += self.settings.bullet_speed
-        #     # Update the rect position.
-        #     self.rect.x = self.x
-        #
-        # if self.angle == 90:
-        #     self.x -= self.settings.bullet_speed
-        #     # Update the rect position.
-        #     self.rect.x = self.x
+
 
     def draw_bullet(self):
         """Draw the bullet to the screen."""

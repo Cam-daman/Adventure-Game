@@ -16,36 +16,52 @@ class Items(Sprite):
         self.king_sad = pygame.image.load('photos/king_sad.png')
         self.king_happy = pygame.image.load('photos/king_happy.png')
         self.crown = pygame.image.load('photos/crown.png')
-        self.orange_skeleton = pygame.image.load('photos/skeleton_orange.png')
-        self.orange_skeleton_dead = pygame.image.load('photos/skeleton_orange_dead.png')
-        self.orange_key = pygame.image.load('photos/orange_key.png')
-        self.red_key = pygame.image.load('photos/red_key.png')
+
 
         self.king_sad_rect = self.king_sad.get_rect()
         self.king_happy_rect = self.king_happy.get_rect()
         self.crown_rect = self.crown.get_rect()
-        self.orange_skeleton_dead_rect = self.orange_skeleton_dead.get_rect()
+
+
+        self.crown_rect.center = (500, 500)
+        self.king_sad_rect.center = (self.w / 2, self.h / 2)
+            #KEYS
+        self.orange_key = pygame.image.load('photos/orange_key.png')
+        self.red_key = pygame.image.load('photos/red_key.png')
+        self.blue_key = pygame.image.load('photos/blue_key.png')
+        self.white_key = pygame.image.load('photos/white_key.png')
+        self.black_key = pygame.image.load('photos/black_key.png')
+        self.yellow_key = pygame.image.load('photos/yellow_key.png')
+
         self.orange_key_rect = self.orange_key.get_rect()
         self.red_key_rect = self.red_key.get_rect()
-        self.skeleton_orange_rect = self.orange_skeleton.get_rect()
+        self.blue_key_rect = self.blue_key.get_rect()
+        self.white_key_rect = self.white_key.get_rect()
+        self.black_key_rect = self.black_key.get_rect()
+        self.yellow_key_rect = self.yellow_key.get_rect()
 
-        self.skeleton_orange_rect.center = (self.w/2, self.h/2)
-        self.crown_rect.center = (500, 500)
-        self.king_sad_rect.center = (self.w/2, self.h/2)
-        self.skeleton_orange_rect.center = (500, 500)
-        self.orange_key_rect.center = (500, 700)
-        self.red_key_rect.center = (500,500)
+        self.orange_key_rect.center = (self.w/2, self.h/2)
+        self.red_key_rect.center = (800, 200)
+        self.blue_key_rect.center = (500, 700)
+        self.white_key_rect.center = (800, 200)
+        self.black_key_rect.center = (800, 200)
+        self.yellow_key_rect.center = (800, 200)
+
+        self.orange_count = 0
+        self.blue_count = 0
+        self.black_count = 0
+        self.white_count = 0
+        self.yellow_count = 0
 
         self.crowned = False
         self.king_crowned = False
         self.have_orange = False
         self.have_red = False
-
-        self.skeleton_orange = True
-        self.key_red = False
-        self.key_orange = False
-        self.key_blue = False
-        self.key_white = False
+        self.have_orange = False
+        self.have_blue = False
+        self.have_white = False
+        self.have_black = False
+        self.have_yellow = False
 
     def load_king(self):
         if self.king_crowned:
@@ -57,17 +73,27 @@ class Items(Sprite):
         if not self.crowned:
             self.screen.blit(self.crown, (500,500))
 
-    def load_skeleton_orange(self):
-        if self.skeleton_orange:
-            self.screen.blit(self.orange_skeleton, self.screen_rect.center)
-        else:
-            self.screen.blit(self.orange_skeleton_dead, self.screen_rect.center)
-            if not self.have_orange:
-                self.screen.blit(self.orange_key, (500, 500))
+    def load_orange_key(self):
+        self.screen.blit(self.orange_key, (self.w/2, self.h/2))
 
-    def load_key_red(self):
-        if not self.have_red:
-            self.screen.blit(self.red_key, (500, 500))
+    def load_red_key(self):
+        self.screen.blit(self.red_key, (800, 200))
+
+    def load_blue_key(self):
+        self.screen.blit(self.blue_key, (500, 700))
+
+    def load_white_key(self):
+        self.screen.blit(self.white_key, (800, 200))
+
+    def load_black_key(self):
+        self.screen.blit(self.black_key, (800, 200))
+
+    def load_yellow_key(self):
+        self.screen.blit(self.yellow_key, (800, 200))
+
+
+
+
 
 
 
